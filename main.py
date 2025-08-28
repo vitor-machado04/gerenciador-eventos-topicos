@@ -152,8 +152,16 @@ def perfil():
     
     current_user_id = session.get('user_id')
     user = User.query.filter_by(id=current_user_id).first()
+    
+    meus_eventos = Evento.query.filter_by(id_usuario=current_user_id).all()
+    
+    print(f"DEBUG - User ID: {current_user_id}")
+    print(f"DEBUG - User: {user.username if user else 'None'}")
+    print(f"DEBUG - Eventos encontrados: {len(meus_eventos)}")
+    for evento in meus_eventos:
+        print(f"DEBUG - Evento: {evento.nome} - Usuario: {evento.id_usuario}")
 
-    return render_template('perfil.html', usuario=user.username)
+    return render_template('perfil.html', usuario=user.username, meus_eventos=meus_eventos)
 
 if __name__ == '__main__':
     app.run(debug=True)
